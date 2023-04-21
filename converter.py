@@ -1,8 +1,7 @@
-import time
 import os
 import requests
 
-desiredfolder = 'D:\\ebirdsounds\\'
+desiredfolder = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\sounds\\'
 
 
 def downloadbirdsound(soundid,name):
@@ -17,7 +16,7 @@ def downloadmultipleids(ids,name):
         os.mkdir(desiredfolder+name)
         
     for i,idc in enumerate(ids):
-        downloadbirdsound(idc,f'{name}\\{name}_{i+1}')
+        downloadbirdsound(idc,f'{name}_{i+1}')
 
 
 def getsoundfrombird(birdid,count,tag = 'song'):
