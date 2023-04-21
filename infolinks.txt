@@ -1,0 +1,1 @@
+https://cdn.download.ams.birds.cornell.edu/api/v1/asset/#audioassetname#/audio
