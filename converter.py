@@ -1,6 +1,7 @@
 import time
 import os
 import requests
+import librosa
 
 desiredfolder = 'D:\\ebirdsounds\\'
 
@@ -12,13 +13,19 @@ def downloadbirdsound(soundid,name):
     f.write(req.content)
     f.close()
 
+def filelen(name,maxdur):
+    return librosa.get_duration(filename=name) > maxdur
+
 def downloadmultipleids(ids,name):
+    if not os.path.exists(desiredfolder+name):
+        os.mkdir(desiredfolder+name)
+        
     for i,idc in enumerate(ids):
-        downloadbirdsound(idc,f'{name}\\{name}_{i}')
+        downloadbirdsound(idc,f'{name}\\{name}_{i+1}')
 
 
-def getsoundfrombird(birdid,count):
-    link = f'https://media.ebird.org/catalog?taxonCode={birdid}&mediaType=audio&tag=song&sort=rating_rank_desc&regionCode=DE'
+def getsoundfrombird(birdid,count,tag = 'song'):
+    link = f'https://media.ebird.org/catalog?taxonCode={birdid}&mediaType=audio&tag={tag}&sort=rating_rank_desc&regionCode=DE'
     req = requests.get(link)
     txt=req.text
 
@@ -35,4 +42,12 @@ def getsoundfrombird(birdid,count):
     
     return soundids
 
-downloadmultipleids(getsoundfrombird('comchi1',5),'zilpzalp')
+f = open('species.txt','r')
+txt=f.read()
+f.close()
+
+soundstodownload=[x.split(',') for x in txt.split('\n')]
+
+
+for x in soundstodownload:
+    downloadmultipleids(getsoundfrombird(x[1],int(x[2]),x[3]),x[0])
