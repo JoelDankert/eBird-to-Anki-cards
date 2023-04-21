@@ -1,1 +1,2 @@
 https://cdn.download.ams.birds.cornell.edu/api/v1/asset/#audioassetname#/audio
+https://media.ebird.org/catalog?taxonCode=comchi1&mediaType=audio&tag=song&sort=rating_rank_desc&regionCode=DE
