@@ -1,7 +1,6 @@
 import time
 import os
 import requests
-import librosa
 
 desiredfolder = 'D:\\ebirdsounds\\'
 
@@ -12,9 +11,6 @@ def downloadbirdsound(soundid,name):
     f = open(desiredfolder+name+'.wav','wb')
     f.write(req.content)
     f.close()
-
-def filelen(name,maxdur):
-    return librosa.get_duration(filename=name) > maxdur
 
 def downloadmultipleids(ids,name):
     if not os.path.exists(desiredfolder+name):
