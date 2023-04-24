@@ -16,6 +16,11 @@ def cut(name):
 def downloadbirdsound(soundid,name):
     link = f'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/{soundid}/audio'
     req = requests.get(link)
+    txt = req.text
+    if "Restricted access" in txt:
+        return
+
+        
     f = open(desiredfolder+"raw\\"+name+'.wav','wb')
     f.write(req.content)
     f.close()
