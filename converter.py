@@ -1,13 +1,32 @@
 import os
 import requests
+from pydub import AudioSegment
 
 desiredfolder = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\sounds\\'
+desiredfolderimg = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\img\\'
 
+
+def cut(name):
+    path = desiredfolder+name
+    sound = AudioSegment.from_file(file = desiredfolder+"raw\\"+name+'.wav', format = 'mp3')
+    
+    newsound = sound[5*10000:]
+    newsound.export(path+'.mp3',format = "mp3")
 
 def downloadbirdsound(soundid,name):
     link = f'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/{soundid}/audio'
     req = requests.get(link)
-    f = open(desiredfolder+name+'.wav','wb')
+    f = open(desiredfolder+"raw\\"+name+'.wav','wb')
+    f.write(req.content)
+    f.close()
+    req.close()
+
+    cut(name)
+
+def downloadbirdimage(imgid,name):
+    link = f'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/{imgid}'
+    req = requests.get(link)
+    f = open(desiredfolderimg+name+'.jpg','wb')
     f.write(req.content)
     f.close()
     req.close()
@@ -47,6 +66,35 @@ def getsoundfrombird(birdid,count):
     
     return soundids
 
+def newgetsoundfrombird(birdid,count):
+    link = f"https://ebird.org/species/{birdid}"
+    req = requests.get(link)
+    txt=req.text
+    req.close()
+
+    soundids = []
+
+    for x in range(count):
+        find = txt.find('https://macaulaylibrary.org/audio/')
+        if find == -1:
+            break
+        
+        txt=txt[find+34:]
+        soundids.append(txt[:txt.find('\"')])
+
+    return soundids
+    
+
+def getimgfrombird(birdid,name):
+    link = f"https://ebird.org/species/{birdid}"
+    req = requests.get(link)
+    txt=req.text
+    req.close()
+    txt=txt[txt.find('https://cdn.download.ams.birds.cornell.edu/api/v1/asset/')+56:]
+    txt=txt[:txt.find('/')]
+    downloadbirdimage(txt,name)
+    
+
 f = open('species.txt','r')
 txt=f.read()
 f.close()
@@ -55,5 +103,10 @@ soundstodownload=[x.split(';') for x in txt.split('\n')]
 
 
 for x in soundstodownload:
-    downloadmultipleids(getsoundfrombird(x[1],3),x[0])
+    downloadmultipleids(newgetsoundfrombird(x[1],3),x[0])
+
+for x in soundstodownload:
+    getimgfrombird(x[1],x[0])
+
+
 
