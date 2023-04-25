@@ -1,9 +1,11 @@
 import os
 import requests
-from pydub import AudioSegment
+#from pydub import AudioSegment
 
 desiredfolder = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\sounds\\'
 desiredfolderimg = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\img\\'
+desiredfolder = 'D:\\ebirdsounds\\sounds\\'
+desiredfolderimg = 'D:\\ebirdsounds\\img\\'
 
 
 def cut(name):
@@ -16,9 +18,12 @@ def cut(name):
 def downloadbirdsound(soundid,name):
     link = f'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/{soundid}/audio'
     req = requests.get(link)
-    txt = req.text
-    if "Restricted access" in txt:
-        return
+    #print('t')
+    #txt = req.text
+    #print('t2')
+    #print(txt)
+    #if "Restricted access" in txt:
+    #    return
 
         
     f = open(desiredfolder+"raw\\"+name+'.wav','wb')
@@ -39,7 +44,7 @@ def downloadbirdimage(imgid,name):
 def downloadmultipleids(ids,name):
     #if not os.path.exists(desiredfolder+name):
     #    os.mkdir(desiredfolder+name)
-        
+    print('downloading')
     for i,idc in enumerate(ids):
         downloadbirdsound(idc,f'{name}_{i+1}')
 
@@ -106,12 +111,10 @@ f.close()
 
 soundstodownload=[x.split(';') for x in txt.split('\n')]
 
-
 for x in soundstodownload:
-    downloadmultipleids(newgetsoundfrombird(x[1],3),x[0])
+    downloadmultipleids(newgetsoundfrombird(x[1],10),x[0])
 
 for x in soundstodownload:
     getimgfrombird(x[1],x[0])
-
 
 
