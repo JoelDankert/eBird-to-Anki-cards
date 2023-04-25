@@ -1,5 +1,6 @@
 import glob
 
+desiredfolder = 'D:\\ebirdsounds\\sounds\\raw\\'
 desiredfolder = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\sounds\\'
 
 files = glob.glob(f"{desiredfolder}*.wav")
