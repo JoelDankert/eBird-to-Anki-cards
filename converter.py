@@ -1,11 +1,11 @@
 import os
 import requests
-#from pydub import AudioSegment
+from pydub import AudioSegment
 
 desiredfolder = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\sounds\\'
 desiredfolderimg = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\img\\'
-desiredfolder = 'D:\\ebirdsounds\\sounds\\'
-desiredfolderimg = 'D:\\ebirdsounds\\img\\'
+#desiredfolder = 'D:\\ebirdsounds\\sounds\\'
+#desiredfolderimg = 'D:\\ebirdsounds\\img\\'
 
 
 def cut(name):
@@ -116,5 +116,3 @@ for x in soundstodownload:
 
 for x in soundstodownload:
     getimgfrombird(x[1],x[0])
-
-
