@@ -10,21 +10,17 @@ desiredfolderimg = 'C:\\Users\\joeld\\Desktop\\Python\\ebird\\img\\'
 
 def cut(name):
     path = desiredfolder+name
-    sound = AudioSegment.from_file(file = desiredfolder+"raw\\"+name+'.wav', format = 'mp3')
-    
-    newsound = sound[5*10000:]
-    newsound.export(path+'.mp3',format = "mp3")
+    try:
+        sound = AudioSegment.from_file(file = desiredfolder+"raw\\"+name+'.wav', format = 'mp3')
+        
+        newsound = sound[5*10000:]
+        newsound.export(path+'.mp3',format = "mp3")
+    except:
+        print('error! '+path)
 
 def downloadbirdsound(soundid,name):
     link = f'https://cdn.download.ams.birds.cornell.edu/api/v1/asset/{soundid}/audio'
     req = requests.get(link)
-    #print('t')
-    #txt = req.text
-    #print('t2')
-    #print(txt)
-    #if "Restricted access" in txt:
-    #    return
-
         
     f = open(desiredfolder+"raw\\"+name+'.wav','wb')
     f.write(req.content)
@@ -44,7 +40,6 @@ def downloadbirdimage(imgid,name):
 def downloadmultipleids(ids,name):
     #if not os.path.exists(desiredfolder+name):
     #    os.mkdir(desiredfolder+name)
-    print('downloading')
     for i,idc in enumerate(ids):
         downloadbirdsound(idc,f'{name}_{i+1}')
 
@@ -111,7 +106,8 @@ f.close()
 
 soundstodownload=[x.split(';') for x in txt.split('\n')]
 
-for x in soundstodownload:
+for i,x in enumerate(soundstodownload):
+    print(f'downloading: {x[0]} {i}/{ len(soundstodownload) } {int( i/len(soundstodownload)*100 )}%')
     downloadmultipleids(newgetsoundfrombird(x[1],10),x[0])
 
 for x in soundstodownload:
