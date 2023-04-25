@@ -13,7 +13,7 @@ def cut(name):
     try:
         sound = AudioSegment.from_file(file = desiredfolder+"raw\\"+name+'.wav', format = 'mp3')
         
-        newsound = sound[5*10000:]
+        newsound = sound[5*1000:35*1000]
         newsound.export(path+'.mp3',format = "mp3")
     except:
         print('error! '+path)
