@@ -111,6 +111,7 @@ Eurasian Blackbird(2);[sound:Eurasian Blackbird_2.mp3]
 ```
 
 You can import this directly into Anki with one column for the bird name and one for the sound.
+(i suggest using the mediaimport plugin to import all the audio and image files properly)
 
 ---
 
